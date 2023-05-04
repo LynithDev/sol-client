@@ -133,14 +133,22 @@ public final class OnlineIndicatorsMod extends StandardMod {
 
 	public void logIn() throws IOException {
 		lastUpdate = ZonedDateTime.now();
-		new URL(GlobalConstants.API + "/online/log_in/" + MinecraftUtils.getPlayerUuid().toString()).openConnection()
-				.getInputStream();
+		try {
+			new URL(GlobalConstants.API + "/online/log_in/" + MinecraftUtils.getPlayerUuid().toString()).openConnection()
+					.getInputStream();
+		} catch (NullPointerException exception) {
+			LOGGER.error("Failed to log in");
+		}
 	}
 
 	public void logOut() throws IOException {
 		lastUpdate = null;
-		new URL(GlobalConstants.API + "/online/log_out/" + MinecraftUtils.getPlayerUuid().toString()).openConnection()
-				.getInputStream();
+		try {
+			new URL(GlobalConstants.API + "/online/log_out/" + MinecraftUtils.getPlayerUuid().toString()).openConnection()
+					.getInputStream();
+		} catch (NullPointerException exception) {
+			LOGGER.error("Failed to log out");
+		}
 	}
 
 	public void clearCache() {
